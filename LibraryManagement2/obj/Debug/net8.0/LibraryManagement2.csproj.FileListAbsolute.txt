@@ -1,0 +1,9 @@
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.csproj.AssemblyReference.cache
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\rpswa.dswa.cache.json
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.GeneratedMSBuildEditorConfig.editorconfig
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.AssemblyInfoInputs.cache
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.AssemblyInfo.cs
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.csproj.CoreCompileInputs.cache
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.MvcApplicationPartsAssemblyInfo.cache
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.RazorAssemblyInfo.cache
+E:\K23CNT2_NguyenHuongTra_Project2\LibraryManagement2\obj\Debug\net8.0\LibraryManagement2.RazorAssemblyInfo.cs

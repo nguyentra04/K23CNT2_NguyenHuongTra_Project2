@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center"> Quản trị hệ thống</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Quản lý người dùng</h5>
+                    <p class="card-text">Xem, thêm, sửa, phân quyền Admin, Librarian, Student.</p>
+                    <a asp-controller="Users" asp-action="Index" class="btn btn-primary">Quản lý</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Quản lý vai trò</h5>
+                    <p class="card-text">Thêm hoặc chỉnh sửa Roles.</p>
+                    <a asp-controller="Roles" asp-action="Index" class="btn btn-warning">Xem Roles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

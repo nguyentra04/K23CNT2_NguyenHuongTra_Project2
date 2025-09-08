@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Librarian Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">📚 Quản lý thư viện</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Quản lý sách</h5>
+                    <p class="card-text">Thêm, sửa, xóa sách.</p>
+                    <a asp-controller="Books" asp-action="Index" class="btn btn-success">Xem sách</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Mượn & Trả sách</h5>
+                    <p class="card-text">Theo dõi sách đang mượn và trả.</p>
+                    <a asp-controller="Borrowed" asp-action="Index" class="btn btn-info">Quản lý mượn trả</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Tác giả & Thể loại</h5>
+                    <p class="card-text">Quản lý thông tin tác giả, thể loại sách.</p>
+                    <a asp-controller="Authors" asp-action="Index" class="btn btn-secondary">Quản lý</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

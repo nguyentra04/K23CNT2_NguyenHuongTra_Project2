@@ -1,0 +1,40 @@
+﻿@model LibraryManagement.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">@ViewData["Title"]</h2>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Username" class="form-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+
+                <p class="text-center mt-3">
+                    Chưa có tài khoản? <a asp-action="Register">Đăng ký ngay</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

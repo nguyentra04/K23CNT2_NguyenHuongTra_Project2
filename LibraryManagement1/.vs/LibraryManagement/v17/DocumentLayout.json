@@ -1,0 +1,401 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\models\\librarydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:models\\librarydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\books\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\books\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\students\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\students\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\librarians\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\librarians\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\admins\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\admins\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\books\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\books\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\models\\registerviewmode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:models\\registerviewmode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\librarianscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\librarianscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\adminscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\adminscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\studentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\studentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\borrowedscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\borrowedscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\authorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\authorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|e:\\k23cnt2_nguyenhuongtra_project2\\librarymanagement\\librarymanagement.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{50EDE74B-5D7D-41A9-9B68-81671B080E77}|LibraryManagement.csproj|solutionrelative:librarymanagement.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 275,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Search.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Books\\Search.cshtml",
+              "RelativeDocumentMoniker": "Views\\Books\\Search.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Books\\Search.cshtml",
+              "RelativeToolTip": "Views\\Books\\Search.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T19:26:50.849Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T19:20:39.698Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAGYAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T18:38:36.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Admins\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admins\\Dashboard.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Admins\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Admins\\Dashboard.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T18:51:20.833Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Librarians\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Librarians\\Dashboard.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Librarians\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Librarians\\Dashboard.cshtml",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAqwCgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T19:02:56.009Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LibraryDbContext.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Models\\LibraryDbContext.cs",
+              "RelativeDocumentMoniker": "Models\\LibraryDbContext.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Models\\LibraryDbContext.cs",
+              "RelativeToolTip": "Models\\LibraryDbContext.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAuwCQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T16:17:51.841Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-04T16:18:51.231Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T16:20:05.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Account\\Register.cshtml",
+              "RelativeToolTip": "Views\\Account\\Register.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T19:21:40.824Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Books\\Delete.cshtml",
+              "RelativeDocumentMoniker": "Views\\Books\\Delete.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Books\\Delete.cshtml",
+              "RelativeToolTip": "Views\\Books\\Delete.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAuwDsAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T19:22:11.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T19:22:43.758Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Students\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Students\\Dashboard.cshtml",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Views\\Students\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Students\\Dashboard.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAqwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-04T18:33:27.278Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RegisterViewMode.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Models\\RegisterViewMode.cs",
+              "RelativeDocumentMoniker": "Models\\RegisterViewMode.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Models\\RegisterViewMode.cs",
+              "RelativeToolTip": "Models\\RegisterViewMode.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T19:16:51.776Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Models\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\LoginViewModel.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Models\\LoginViewModel.cs",
+              "RelativeToolTip": "Models\\LoginViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:46:53.152Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "LibrariansController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\LibrariansController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LibrariansController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\LibrariansController.cs",
+              "RelativeToolTip": "Controllers\\LibrariansController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:52:50.957Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAiwDwAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:07:05.943Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AdminsController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\AdminsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminsController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\AdminsController.cs",
+              "RelativeToolTip": "Controllers\\AdminsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:49:48.024Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "BorrowedsController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\BorrowedsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BorrowedsController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\BorrowedsController.cs",
+              "RelativeToolTip": "Controllers\\BorrowedsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:21:43.836Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "StudentsController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\StudentsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StudentsController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\StudentsController.cs",
+              "RelativeToolTip": "Controllers\\StudentsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:20:59.656Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CategoriesController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:19:02.194Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AuthorsController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\AuthorsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthorsController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\AuthorsController.cs",
+              "RelativeToolTip": "Controllers\\AuthorsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:18:26.682Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "BooksController.cs",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\BooksController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BooksController.cs",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\Controllers\\BooksController.cs",
+              "RelativeToolTip": "Controllers\\BooksController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T18:17:53.51Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "LibraryManagement.csproj",
+              "DocumentMoniker": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\LibraryManagement.csproj",
+              "RelativeDocumentMoniker": "LibraryManagement.csproj",
+              "ToolTip": "E:\\K23CNT2_NguyenHuongTra_Project2\\LibraryManagement\\LibraryManagement.csproj",
+              "RelativeToolTip": "LibraryManagement.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-04T16:22:15.119Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

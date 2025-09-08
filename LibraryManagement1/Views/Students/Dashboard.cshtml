@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">👨‍🎓 Xin chào sinh viên!</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Xem sách</h5>
+                    <p class="card-text">Tìm kiếm sách theo tên, tác giả, thể loại.</p>
+                    <a asp-controller="Books" asp-action="Search" class="btn btn-primary">Tìm kiếm sách</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Sách đã mượn</h5>
+                    <p class="card-text">Xem danh sách các sách bạn đang mượn.</p>
+                    <a asp-controller="Borrowed" asp-action="MyBooks" class="btn btn-success">Xem sách mượn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<LibraryManagement.Models.Book>
+
+@{
+    ViewData["Title"] = "Tìm kiếm sách";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center">Tìm kiếm sách</h2>
+    <hr />
+
+    <form asp-action="Search" method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="keyword" class="form-control" placeholder="Nhập tên sách..." />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="author" class="form-control" placeholder="Tên tác giả..." />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="category" class="form-control" placeholder="Thể loại..." />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Tìm</button>
+        </div>
+    </form>
+
+    @if (Model.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Tên sách</th>
+                    <th>Tác giả</th>
+                    <th>Thể loại</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@book.CateName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-center text-muted">Không tìm thấy sách phù hợp.</p>
+    }
+</div>

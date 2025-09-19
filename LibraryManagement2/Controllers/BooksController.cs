@@ -30,7 +30,8 @@ namespace LibraryManagement2.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                    _logger.LogWarning("Yêu cầu chi tiết với ID null tại {Time}", DateTime.Now);
+                return NotFound(); // Trả về lỗi 404 nếu ID không hợp lệ
             }
 
             var book = await _context.Books

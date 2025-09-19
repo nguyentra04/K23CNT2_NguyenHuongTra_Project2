@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using LibraryManagement2.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement2.Models;

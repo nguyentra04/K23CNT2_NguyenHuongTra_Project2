@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LibraryManagement2.Models.Entities;
+namespace LibraryManagement2.Models;
 
 public partial class Admin
 {

@@ -4,15 +4,18 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Chỉnh Sửa Sách</h1>
 
-<h4>Book</h4>
+<h4>Thông Tin Sách</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @* Thêm token để bảo vệ chống tấn công CSRF *@
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BookId" />
+
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -45,25 +48,49 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <select asp-for="Status" class="form-control">
+                    <option value="true">Kích hoạt</option>
+                    <option value="false">Vô hiệu hóa</option>
+                </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="ImagePath" class="control-label">Đường Dẫn Ảnh</label>
+                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <div>
+                        <img src="@Model.ImagePath" alt="@Model.Title" style="max-width: 200px; max-height: 300px;" />
+                    </div>
+                }
+                else
+                {
+                    <span>Không có ảnh hiện tại</span>
+                }
+                <input asp-for="ImagePath" class="form-control mt-2" />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+                <div class="mt-2">
+                    <label class="control-label">Tải Lên Ảnh Mới</label>
+                    <input type="file" name="ImageFile" class="form-control-file" accept="image/*" />
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay Lại Danh Sách</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

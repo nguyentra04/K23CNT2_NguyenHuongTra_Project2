@@ -1,6 +1,45 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container mt-4">
+    <h1 class="display-4 text-center">@ViewData["Title"]</h1>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4 class="card-title">Chính Sách Bảo Mật</h4>
+            <p class="card-text">
+                Trang web này được thiết kế để quản lý thư viện và bảo vệ thông tin cá nhân của người dùng. Chúng tôi cam kết tuân thủ các nguyên tắc bảo mật sau:
+            </p>
+
+            <h5>1. Thu Thập Dữ Liệu</h5>
+            <p class="card-text">
+                Chúng tôi thu thập thông tin như tên, email, và số điện thoại khi bạn đăng ký tài khoản (Sinh viên, Thủ thư, hoặc Admin). Dữ liệu này được sử dụng để quản lý mượn trả sách và liên lạc khi cần thiết.
+            </p>
+
+            <h5>2. Sử Dụng Dữ Liệu</h5>
+            <p class="card-text">
+                Thông tin của bạn chỉ được sử dụng trong phạm vi hệ thống này và không được chia sẻ với bên thứ ba mà không có sự đồng ý của bạn, trừ khi được yêu cầu bởi pháp luật.
+            </p>
+
+            <h5>3. Bảo Vệ Dữ Liệu</h5>
+            <p class="card-text">
+                Dữ liệu được lưu trữ an toàn trên máy chủ và được mã hóa khi truyền tải. Chúng tôi sử dụng các biện pháp bảo mật như xác thực vai trò (Admin, Sinh viên, Thủ thư) để hạn chế truy cập không được phép.
+            </p>
+
+            <h5>4. Quyền Riêng Tư của Bạn</h5>
+            <p class="card-text">
+                Bạn có quyền yêu cầu xem, chỉnh sửa, hoặc xóa thông tin cá nhân của mình bằng cách liên hệ với quản trị viên. Nếu bạn có thắc mắc, vui lòng gửi email đến <a href="mailto:support@librarymanagement.com">support@librarymanagement.com</a>.
+            </p>
+
+            <h5>5. Cập Nhật Chính Sách</h5>
+            <p class="card-text">
+                Chính sách này có thể được cập nhật bất cứ lúc nào. Phiên bản mới nhất sẽ được đăng tải tại đây vào ngày @DateTime.Now.ToString("dd/MM/yyyy").
+            </p>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Quay Về Trang Chủ</a>
+    </div>
+</div>

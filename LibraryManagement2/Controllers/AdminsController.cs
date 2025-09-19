@@ -88,7 +88,7 @@ namespace LibraryManagement2.Controllers
                     Password = model.Password, // Gán mật khẩu (cần hash thực tế)
                     Fullname = model.Fullname,
                     Email = model.Email,
-                    HireDate = model.HireDate,
+                    HireDate = DateOnly.FromDateTime(model.HireDate),
                     Status = model.Status
                 };
 
@@ -114,45 +114,72 @@ namespace LibraryManagement2.Controllers
         [HttpGet]
         public IActionResult CheckDueDates()
         {
-            var currentDate = DateTime.Now; // Lấy ngày giờ hiện tại (12/09/2025 08:52 PM +07)
-            var dueDateReminder = currentDate.AddDays(2); // Ngày nhắc nhở (14/09/2025)
-            var overdueDate = currentDate; // Ngày kiểm tra quá hạn
+            var currentDate = DateTime.Now;
+            var dueDateReminder = currentDate.AddDays(2);
 
-            var overdueBooks = _context.Borrowed
-                .Where(b => b.DueDate < overdueDate && b.ReturnDate == null && b.Student.Status && b.Librarian.Status)
+            // Convert DateTime to DateOnly for comparison
+            var currentDateOnly = DateOnly.FromDateTime(currentDate);
+            var dueDateReminderOnly = DateOnly.FromDateTime(dueDateReminder);
+
+            var overdueBooks = _context.Borroweds
+                .Where(b =>
+                    b.DueDate.HasValue &&
+                    b.DueDate.Value < currentDateOnly &&
+                    b.ReturnDate == null &&
+                    b.Student != null && b.Student.Status == true &&
+                    b.Libra != null && b.Libra.Status == true
+                )
                 .Include(b => b.Student)
                 .Include(b => b.Book)
-                .Include(b => b.Librarian)
+                .Include(b => b.Libra)
                 .ToList();
 
             foreach (var borrow in overdueBooks)
             {
-                if (borrow.Student != null)
+                if (borrow.Student != null && borrow.Student.Email != null)
                     _emailService.SendEmail(borrow.Student.Email, "Cảnh báo",
-                        $"Sách '{borrow.Book.Title}' đã quá hạn trả từ {borrow.DueDate:dd/MM/yyyy}."); // Gửi cảnh báo cho sinh viên
-                if (borrow.Librarian != null)
-                    _emailService.SendEmail(borrow.Librarian.Email, "Cảnh báo",
-                        $"Sách '{borrow.Book.Title}' của {borrow.Student?.Fullname} đã quá hạn từ {borrow.DueDate:dd/MM/yyyy}."); // Gửi cảnh báo cho thủ thư
+                        $"Sách '{borrow.Book?.Title}' đã quá hạn trả từ {borrow.DueDate:dd/MM/yyyy}.");
+                if (borrow.Libra != null && borrow.Libra.Email != null)
+                    _emailService.SendEmail(borrow.Libra.Email, "Cảnh báo",
+                        $"Sách '{borrow.Book?.Title}' của {borrow.Student?.Fullname} đã quá hạn từ {borrow.DueDate:dd/MM/yyyy}.");
             }
 
-            var reminderBooks = _context.Borrowed
-                .Where(b => b.DueDate == dueDateReminder && b.ReturnDate == null && b.Student.Status && b.Librarian.Status)
+            var reminderBooks = _context.Borroweds
+                .Where(b =>
+                    b.DueDate.HasValue &&
+                    b.DueDate.Value == dueDateReminderOnly &&
+                    b.ReturnDate == null &&
+                    b.Student != null && b.Student.Status == true &&
+                    b.Libra != null && b.Libra.Status == true
+                )
                 .Include(b => b.Student)
                 .Include(b => b.Book)
-                .Include(b => b.Librarian)
+                .Include(b => b.Libra)
                 .ToList();
 
             foreach (var borrow in reminderBooks)
             {
-                if (borrow.Student != null)
+                if (borrow.Student != null && borrow.Student.Email != null)
                     _emailService.SendEmail(borrow.Student.Email, "Nhắc nhở",
-                        $"Sách '{borrow.Book.Title}' đến hạn trả vào {borrow.DueDate:dd/MM/yyyy}."); // Gửi nhắc nhở cho sinh viên
-                if (borrow.Librarian != null)
-                    _emailService.SendEmail(borrow.Librarian.Email, "Nhắc nhở",
-                        $"Sách '{borrow.Book.Title}' của {borrow.Student?.Fullname} đến hạn vào {borrow.DueDate:dd/MM/yyyy}."); // Gửi nhắc nhở cho thủ thư
+                        $"Sách '{borrow.Book?.Title}' đến hạn trả vào {borrow.DueDate:dd/MM/yyyy}.");
+                if (borrow.Libra != null && borrow.Libra.Email != null)
+                    _emailService.SendEmail(borrow.Libra.Email, "Nhắc nhở",
+                        $"Sách '{borrow.Book?.Title}' của {borrow.Student?.Fullname} đến hạn vào {borrow.DueDate:dd/MM/yyyy}.");
             }
 
-            return RedirectToAction("Index"); // Chuyển hướng về trang chủ sau khi xử lý
+            return RedirectToAction("Index");
+        }
+    }
+    public interface IEmailService
+    {
+        void SendEmail(string to, string subject, string body);
+    }
+
+    public class EmailService : IEmailService
+    {
+        public void SendEmail(string to, string subject, string body)
+        {
+            Console.WriteLine($"Gửi đến {to}: {subject} - {body}");
         }
     }
 }

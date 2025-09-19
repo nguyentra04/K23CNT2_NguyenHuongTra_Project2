@@ -29,6 +29,6 @@ namespace LibraryManagement2.Models
 
         [Required(ErrorMessage = "Vai trò là bắt buộc.")]
         [Display(Name = "Vai trò")]
-        public string Role { get; set; } // "Admin"
+        public string Role { get; set; } 
     }
 }

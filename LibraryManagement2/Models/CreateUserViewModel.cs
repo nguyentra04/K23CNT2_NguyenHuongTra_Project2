@@ -22,7 +22,7 @@ namespace LibraryManagement2.Models
 
         [Required(ErrorMessage = "Vai trò là bắt buộc.")]
         [Display(Name = "Vai trò")]
-        public string Role { get; set; } // "Librarian" hoặc "Student"
+        public string Role { get; set; } 
 
         // Trường cho Student (tùy chọn)
         [Display(Name = "Mã sinh viên")]
@@ -37,9 +37,12 @@ namespace LibraryManagement2.Models
         // Trường cho Librarian (tùy chọn)
         [Display(Name = "Mã nhân viên")]
         public string LibraId { get; set; }
+        
+        [Display(Name = "Số điện thoại")]
+        public string PhoneNumber { get; set; }
 
-        [Display(Name = "Chi nhánh thư viện")]
-        public string LibraryBranch { get; set; }
+
+
 
         [Display(Name = "Ngày tuyển dụng")]
         [DataType(DataType.Date)]

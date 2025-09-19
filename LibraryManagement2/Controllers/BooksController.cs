@@ -1,37 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LibraryManagement2.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LibraryManagement2.Models;
+using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LibraryManagement2.Controllers
 {
     public class BooksController : Controller
     {
         private readonly LibraryDbContext _context;
+        private readonly ILogger<BooksController> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BooksController(LibraryDbContext context)
+        public BooksController(LibraryDbContext context, ILogger<BooksController> logger, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
+        // Hiển thị danh sách sách
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var libraryDbContext = _context.Books.Include(b => b.Author).Include(b => b.Cate);
-            return View(await libraryDbContext.ToListAsync());
+            try
+            {
+                var role = _httpContextAccessor.HttpContext?.Session.GetString("UserRole");
+                if (string.IsNullOrEmpty(role) || role != "Admin")
+                {
+                    _logger.LogWarning("Truy cập không được phép vào Index tại {Time}", DateTime.Now);
+                    return RedirectToAction("Login", "Account");
+                }
+
+                _logger.LogInformation("Truy cập danh sách sách tại {Time}", DateTime.Now);
+                var books = await _context.Books.ToListAsync();
+                return View(books);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi truy cập danh sách sách tại {Time}", DateTime.Now);
+                return RedirectToAction("Error", "Home");
+            }
         }
 
+        // Hiển thị chi tiết một cuốn sách
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                    _logger.LogWarning("Yêu cầu chi tiết với ID null tại {Time}", DateTime.Now);
-                return NotFound(); // Trả về lỗi 404 nếu ID không hợp lệ
+                _logger.LogWarning("Yêu cầu Details với ID null tại {Time}", DateTime.Now);
+                return NotFound();
             }
 
             var book = await _context.Books
@@ -40,65 +64,105 @@ namespace LibraryManagement2.Controllers
                 .FirstOrDefaultAsync(m => m.BookId == id);
             if (book == null)
             {
+                _logger.LogWarning("Không tìm thấy sách với ID {Id} tại {Time}", id, DateTime.Now);
                 return NotFound();
             }
 
             return View(book);
         }
 
+        // Hiển thị form tạo sách
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "AuthorId");
-            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateId");
+            var role = _httpContextAccessor.HttpContext?.Session.GetString("UserRole");
+            if (string.IsNullOrEmpty(role) || role != "Admin")
+            {
+                _logger.LogWarning("Truy cập không được phép vào Create tại {Time}", DateTime.Now);
+                return RedirectToAction("Login", "Account");
+            }
+
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "Fullname");
+            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateName");
             return View();
         }
 
+        // Xử lý tạo sách khi form được submit
         // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,Title,AuthorId,Publisher,YearPublished,CateId,Quantity,Description,Status")] Book book)
+        public async Task<IActionResult> Create([Bind("BookId,Title,AuthorId,Publisher,YearPublished,CateId,Quantity,Description,Status,ImagePath")] Book book, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    if (ImageFile != null)
+                    {
+                        var filePath = Path.Combine("wwwroot/images/books", ImageFile.FileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await ImageFile.CopyToAsync(stream);
+                        }
+                        book.ImagePath = $"/images/books/{ImageFile.FileName}";
+                    }
+
+                    _context.Add(book);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Tạo sách thành công với ID {Id} tại {Time}", book.BookId, DateTime.Now);
+                    TempData["Message"] = "Tạo sách thành công!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Lỗi khi tạo sách tại {Time}", DateTime.Now);
+                    ModelState.AddModelError("", "Có lỗi xảy ra khi tạo sách.");
+                }
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "AuthorId", book.AuthorId);
-            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateId", book.CateId);
+
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "Fullname", book.AuthorId);
+            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateName", book.CateId);
             return View(book);
         }
 
+        // Hiển thị form chỉnh sửa sách
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
+                _logger.LogWarning("Yêu cầu Edit với ID null tại {Time}", DateTime.Now);
                 return NotFound();
             }
 
             var book = await _context.Books.FindAsync(id);
             if (book == null)
             {
+                _logger.LogWarning("Không tìm thấy sách với ID {Id} tại {Time}", id, DateTime.Now);
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "AuthorId", book.AuthorId);
-            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateId", book.CateId);
+
+            var role = _httpContextAccessor.HttpContext?.Session.GetString("UserRole");
+            if (string.IsNullOrEmpty(role) || role != "Admin")
+            {
+                _logger.LogWarning("Truy cập không được phép vào Edit tại {Time}", DateTime.Now);
+                return RedirectToAction("Login", "Account");
+            }
+
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "Fullname", book.AuthorId);
+            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateName", book.CateId);
             return View(book);
         }
 
+        // Xử lý chỉnh sửa sách khi form được submit
         // POST: Books/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,Title,AuthorId,Publisher,YearPublished,CateId,Quantity,Description,Status")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,Title,AuthorId,Publisher,YearPublished,CateId,Quantity,Description,Status,ImagePath")] Book book, IFormFile ImageFile)
         {
             if (id != book.BookId)
             {
+                _logger.LogWarning("ID không khớp khi chỉnh sửa sách tại {Time}", DateTime.Now);
                 return NotFound();
             }
 
@@ -106,32 +170,45 @@ namespace LibraryManagement2.Controllers
             {
                 try
                 {
+                    if (ImageFile != null)
+                    {
+                        var filePath = Path.Combine("wwwroot/images/books", ImageFile.FileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await ImageFile.CopyToAsync(stream);
+                        }
+                        book.ImagePath = $"/images/books/{ImageFile.FileName}";
+                    }
+
                     _context.Update(book);
                     await _context.SaveChangesAsync();
+                    _logger.LogInformation("Cập nhật sách thành công với ID {Id} tại {Time}", book.BookId, DateTime.Now);
+                    TempData["Message"] = "Cập nhật sách thành công!";
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!BookExists(book.BookId))
+                    _logger.LogError(ex, "Xung đột khi cập nhật sách ID {Id} tại {Time}", id, DateTime.Now);
+                    if (!BookExists(id))
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "AuthorId", book.AuthorId);
-            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateId", book.CateId);
+
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "AuthorId", "Fullname", book.AuthorId);
+            ViewData["CateId"] = new SelectList(_context.Categories, "CateId", "CateName", book.CateId);
             return View(book);
         }
 
+        // Hiển thị form xóa sách
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
+                _logger.LogWarning("Yêu cầu Delete với ID null tại {Time}", DateTime.Now);
                 return NotFound();
             }
 
@@ -141,12 +218,21 @@ namespace LibraryManagement2.Controllers
                 .FirstOrDefaultAsync(m => m.BookId == id);
             if (book == null)
             {
+                _logger.LogWarning("Không tìm thấy sách với ID {Id} tại {Time}", id, DateTime.Now);
                 return NotFound();
+            }
+
+            var role = _httpContextAccessor.HttpContext?.Session.GetString("UserRole");
+            if (string.IsNullOrEmpty(role) || role != "Admin")
+            {
+                _logger.LogWarning("Truy cập không được phép vào Delete tại {Time}", DateTime.Now);
+                return RedirectToAction("Login", "Account");
             }
 
             return View(book);
         }
 
+        // Xử lý xóa sách khi xác nhận
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -155,13 +241,24 @@ namespace LibraryManagement2.Controllers
             var book = await _context.Books.FindAsync(id);
             if (book != null)
             {
-                _context.Books.Remove(book);
+                try
+                {
+                    _context.Books.Remove(book);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Xóa sách thành công với ID {Id} tại {Time}", id, DateTime.Now);
+                    TempData["Message"] = "Xóa sách thành công!";
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Lỗi khi xóa sách ID {Id} tại {Time}", id, DateTime.Now);
+                    return RedirectToAction("Error", "Home");
+                }
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        // Kiểm tra sự tồn tại của sách
         private bool BookExists(int id)
         {
             return _context.Books.Any(e => e.BookId == id);

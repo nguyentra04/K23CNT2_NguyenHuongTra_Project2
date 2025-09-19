@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement2.Models;
+using LibraryManagement2.Models.Entities;
 
 namespace LibraryManagement2.Controllers
 {

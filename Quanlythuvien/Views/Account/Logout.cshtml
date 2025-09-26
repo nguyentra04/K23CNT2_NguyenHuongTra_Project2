@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Đăng Xuất";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Đảm bảo sử dụng layout chung
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Đăng Xuất</h1>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["Message"]</div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <p class="mb-4">Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?</p>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn btn-danger btn-lg w-100 mb-3">Xác Nhận Đăng Xuất</button>
+                    </form>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary btn-lg w-100">Quay Về Trang Chủ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

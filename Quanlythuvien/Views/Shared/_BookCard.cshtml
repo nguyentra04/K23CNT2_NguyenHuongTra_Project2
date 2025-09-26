@@ -1,0 +1,19 @@
+﻿@model Quanlythuvien.Models.Book
+
+<div class="col">
+    <div class="card h-100 shadow-sm">
+        <img src="@(string.IsNullOrEmpty(Model.ImagePath) ? "/images/books/default.jpg" : Model.ImagePath)"
+             class="card-img-top" alt="@Model.Title" style="height: 200px; object-fit: cover;">
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">@Model.Title</h5>
+            <p class="card-text text-muted">Số lượng: @Model.Quantity</p>
+            <div class="mt-auto">
+                <a asp-action="Details" asp-controller="Books" asp-route-id="@Model.BookId" class="btn btn-info btn-sm mb-2 w-100">Xem Chi Tiết</a>
+                @if (Context.Session.GetString("UserRole") == "Student")
+                {
+                    <a asp-action="Borrow" asp-controller="Books" asp-route-id="@Model.BookId" class="btn btn-success btn-sm w-100">Đăng Ký Mượn</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

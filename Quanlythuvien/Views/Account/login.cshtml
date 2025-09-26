@@ -1,0 +1,45 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Đăng Nhập";
+    var modelState = ViewData.ModelState;
+}
+
+<h2 class="text-center mb-4">Đăng Nhập Hệ Thống</h2>
+
+@if (!string.IsNullOrEmpty(TempData["Message"]?.ToString()))
+{
+    <div class="alert alert-success text-center">@TempData["Message"]</div>
+}
+
+@if (!modelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in modelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<form asp-action="Login" method="post" class="container w-50">
+    <div class="mb-3">
+        <label asp-for="Username" class="form-label">Tên đăng nhập (libX, svX, hoặc Admin)</label>
+        <input asp-for="Username" class="form-control" placeholder="Ví dụ: lib1, sv1, admin1" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Mật khẩu</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+    <div class="mt-2 text-center">
+        <a href="#" class="text-decoration-none">Quên mật khẩu?</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

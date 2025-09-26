@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Quanlythuvien.Models.Book>
+@{
+    ViewData["Title"] = "Sách Nổi Bật";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Sách Nổi Bật</h2>
+
+    @if (!string.IsNullOrEmpty(TempData["Message"]?.ToString()))
+    {
+        <div class="alert alert-success text-center">@TempData["Message"]</div>
+    }
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var item in Model)
+        {
+            @await Html.PartialAsync("_BookCard", item)
+        }
+    </div>
+    <div class="text-center mt-4">
+        <a asp-controller="Books" asp-action="Index" class="btn btn-primary">Xem Tất Cả Sách</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

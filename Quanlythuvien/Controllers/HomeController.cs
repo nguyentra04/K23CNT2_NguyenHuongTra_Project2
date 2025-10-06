@@ -18,33 +18,22 @@ namespace Quanlythuvien.Controllers
         // GET: Home/Index
         public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserRole")))
-            {
-                return View(); // Hi?n th? trang không ??ng nh?p
-            }
-
-            ViewBag.Username = HttpContext.Session.GetString("Username");
-            ViewBag.UserRole = HttpContext.Session.GetString("UserRole");
-            ViewBag.RedirectController = GetRedirectController(HttpContext.Session.GetString("UserRole"));
-
             try
             {
                 var books = await _context.Books
-                    .Include(b => b.BookAuthors)
-                    .ThenInclude(ba => ba.Author)
+                    .Include(b => b.Authors)
+                    .ThenInclude(a => a) // Remove this line if Author does not have navigation properties to include
                     .Include(b => b.Publisher)
-                    .OrderByDescending(b => b.BookId) // S? d?ng BookId nh? proxy cho th? t? m?i
+                    .OrderByDescending(b => b.BookId)
                     .Take(6)
                     .ToListAsync();
                 ViewBag.Books = books;
             }
             catch (Exception ex)
             {
-                // Ghi log l?i (s? d?ng ILogger n?u có)
                 Console.WriteLine($"L?i t?i sách: {ex.Message}");
-                ViewBag.ErrorMessage = "Không th? t?i danh sách sách. Vui lòng th? l?i sau.";
+                ViewBag.ErrorMessage = "Không th? t?i danh sách sách.";
             }
-
             return View();
         }
 
@@ -60,10 +49,10 @@ namespace Quanlythuvien.Controllers
             try
             {
                 var books = await _context.Books
-                    .Include(b => b.BookAuthors)
-                    .ThenInclude(ba => ba.Author)
+                    .Include(b => b.Authors)
+                    .ThenInclude(a => a) // Remove this line if Author does not have navigation properties to include
                     .Include(b => b.Publisher)
-                    .OrderByDescending(b => b.BookId) // S?p x?p theo BookId gi?m d?n
+                    .OrderByDescending(b => b.BookId)
                     .Take(6)
                     .ToListAsync();
                 return View(books);
@@ -106,16 +95,15 @@ namespace Quanlythuvien.Controllers
             try
             {
                 var books = await _context.Books
-                    .Include(b => b.BookAuthors)
-                    .ThenInclude(ba => ba.Author)
+                    .Include(b => b.Authors)
                     .Include(b => b.Publisher)
                     .Where(b => b.Title.Contains(query) ||
-                               b.BookAuthors.Any(ba => ba.Author.AuthorName.Contains(query)) ||
-                               b.Publisher.PublisherName.Contains(query)) // Thêm tìm ki?m theo nhà xu?t b?n
+                               b.Authors.Any(a => a.AuthorName.Contains(query)) ||
+                               b.Publisher.PublisherName.Contains(query)) 
                     .Take(10)
                     .ToListAsync();
                 ViewBag.Books = books;
-                ViewBag.SearchQuery = query; // Truy?n query ?? hi?n th? trên view
+                ViewBag.SearchQuery = query; 
             }
             catch (Exception ex)
             {

@@ -22,13 +22,46 @@ namespace Quanlythuvien.Controllers
         // GET: Librarians
         public async Task<IActionResult> Index()
         {
-            // Kiểm tra quyền Admin
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
+            if (HttpContext.Session.GetString("UserRole") != "Librarian")
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Account");
             }
 
-            return View(await _context.Librarians.ToListAsync());
+            // Thống kê sách và mượn
+            ViewBag.TotalBooks = await _context.Books.CountAsync();
+            ViewBag.PendingBorrows = await _context.Borroweds.CountAsync(b => b.Status == false);
+
+            return View();
+        }
+
+        // Duyệt đơn mượn
+        public async Task<IActionResult> ApproveBorrow(int borrowId)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Librarian")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var borrow = await _context.Borroweds.FindAsync(borrowId);
+            if (borrow != null)
+            {
+                borrow.Status = true;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Quản lý tình trạng sách
+        public async Task<IActionResult> ManageBooks()
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Librarian")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var books = await _context.Books.ToListAsync();
+            return View(books);
         }
 
         // GET: Librarians/Details/5

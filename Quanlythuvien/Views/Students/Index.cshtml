@@ -1,71 +1,33 @@
-﻿@model IEnumerable<Quanlythuvien.Models.Student>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Trang Quản Lý Sinh Viên";
+    var availableBooks = ViewBag.AvailableBooks as List<Quanlythuvien.Models.Book> ?? new List<Quanlythuvien.Models.Book>();
 }
 
-<h1>Index</h1>
+<div class="container mt-5">
+    <h2 class="mb-4">Trang Quản Lý Sinh Viên</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PasswordHash)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fullname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StudentId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @if (!string.IsNullOrEmpty(TempData["Message"]?.ToString()))
+    {
+        <div class="alert alert-success text-center">@TempData["Message"]</div>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="mb-3">Sách Có Sẵn Để Mượn</h4>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var book in availableBooks)
+                {
+                    <div class="col">
+                        <div class="card">
+                            <img src="@(string.IsNullOrEmpty(book.ImagePath) ? "books/images/default.jpg" : book.ImagePath)" class="card-img-top" alt="@book.Title" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">@book.Title</h5>
+                                <a asp-controller="Student" asp-action="BorrowBook" asp-route-bookId="@book.BookId" class="btn btn-success w-100">Đăng Ký Mượn</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

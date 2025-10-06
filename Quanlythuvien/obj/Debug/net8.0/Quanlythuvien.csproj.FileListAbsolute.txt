@@ -49,11 +49,15 @@ E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Exte
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.WebEncoders.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Identity.Client.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
@@ -96,7 +100,9 @@ E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Identit
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Memory.Data.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Reflection.MetadataLoadContext.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Runtime.Caching.dll
+E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Security.Permissions.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Windows.Extensions.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\af\Humanizer.resources.dll
@@ -247,6 +253,7 @@ E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win-x
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\obj\Debug\net8.0\rjimswa.dswa.cache.json
@@ -265,11 +272,3 @@ E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\obj\Debug\net8.0\refint\Quanlyt
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\obj\Debug\net8.0\Quanlythuvien.pdb
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\obj\Debug\net8.0\Quanlythuvien.genruntimeconfig.cache
 E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\obj\Debug\net8.0\ref\Quanlythuvien.dll
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\Microsoft.Extensions.WebEncoders.dll
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
-E:\K23CNT2_NguyenHuongTra_Project2\Quanlythuvien\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

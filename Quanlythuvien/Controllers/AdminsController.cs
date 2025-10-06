@@ -25,11 +25,65 @@ namespace Quanlythuvien.Controllers
             // Kiểm tra quyền Admin
             if (HttpContext.Session.GetString("UserRole") != "Admin")
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Account");
             }
 
-            return View(await _context.Admins.ToListAsync());
+            // Thống kê
+            ViewBag.TotalBooks = await _context.Books.CountAsync();
+            ViewBag.TotalStudents = await _context.Students.CountAsync();
+            ViewBag.TotalLibrarians = await _context.Librarians.CountAsync();
+            ViewBag.TotalBorrows = await _context.Borroweds.CountAsync(b => b.ReturnDate == null);
+
+            return View();
         }
+
+        // Quản lý Admin khác
+        public IActionResult ManageAdmins() => RedirectToAction("Index", "Admins");
+
+        // Quản lý Thủ Thư
+        public IActionResult ManageLibrarians() => RedirectToAction("Index", "Librarians");
+
+        // Quản lý Sinh Viên
+        public IActionResult ManageStudents() => RedirectToAction("Index", "Students");
+
+        // Quản lý Sách
+        public IActionResult ManageBooks() => RedirectToAction("Index", "Books");
+
+        // Xem thống kê sách mượn nhiều
+        public async Task<IActionResult> BorrowStats()
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Admin")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var topBooks = await _context.Borroweds
+                .Include(b => b.Book)
+                .GroupBy(b => b.BookId)
+                .Select(g => new { Book = g.Key, Count = g.Count() })
+                .OrderByDescending(g => g.Count)
+                .Take(10)
+                .ToListAsync();
+            return View(topBooks);
+        }
+
+        // Xem phiếu mượn của sinh viên
+        public async Task<IActionResult> StudentBorrows(int studentId)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Admin")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var borrows = await _context.Borroweds
+                .Include(b => b.Student)
+                .Include(b => b.Book)
+                .Where(b => b.StudentId == studentId)
+                .ToListAsync();
+            return View(borrows);
+        }
+    
+    
 
         // GET: Admins/Details/5
         public async Task<IActionResult> Details(int? id)

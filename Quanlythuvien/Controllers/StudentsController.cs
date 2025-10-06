@@ -21,7 +21,52 @@ namespace Quanlythuvien.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            if (HttpContext.Session.GetString("UserRole") != "Student")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Lấy danh sách sách có sẵn
+            var availableBooks = await _context.Books
+                .Where(b => b.Quantity > 0)
+                .Take(10)
+                .ToListAsync();
+            ViewBag.AvailableBooks = availableBooks;
+
+            return View();
+        }
+
+        // Đăng ký mượn sách
+        public async Task<IActionResult> BorrowBook(int bookId)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Student")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var book = await _context.Books.FindAsync(bookId);
+            if (book != null && book.Quantity > 0)
+            {
+               
+                book.Quantity -= 1;
+                var borrow = new Borrowed
+                {
+                    StudentId = 1, 
+                    BookId = bookId,
+                    BorrowDate = DateOnly.FromDateTime(DateTime.Now),
+                    DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(7))
+                };
+                _context.Borroweds.Add(borrow);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = "Đăng ký mượn sách thành công!";
+            }
+            else
+            {
+                TempData["Message"] = "Sách không khả dụng.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Students/Details/5

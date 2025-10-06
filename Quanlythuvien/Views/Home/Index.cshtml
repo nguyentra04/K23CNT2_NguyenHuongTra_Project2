@@ -1,58 +1,65 @@
-﻿@{
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "Trang Chủ";
     var books = ViewBag.Books as List<Quanlythuvien.Models.Book> ?? new List<Quanlythuvien.Models.Book>();
+    var userRole = HttpContextAccessor.HttpContext?.Session.GetString("UserRole");
 }
 
 <div class="container mt-5">
-    <h1 class="text-center mb-5 display-4 text-primary">Chào Mừng Đến Với thư viện CT Uni</h1>
-    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-    {
-        <div class="alert alert-danger text-center">@ViewBag.ErrorMessage</div>
-    }
-    @if (!string.IsNullOrEmpty(ViewBag.SearchQuery))
-    {
-        <div class="alert alert-info text-center">Kết quả tìm kiếm cho: <strong>@ViewBag.SearchQuery</strong></div>
-    }
 
-    <!-- Lưới sách -->
+    <!-- Sách Nổi Bật -->
     @if (books.Any())
     {
         <div class="row mb-5">
             <div class="col-12">
-                <h2 class="text-center mb-4">@(string.IsNullOrEmpty(ViewBag.SearchQuery) ? "Danh Sách Sách Nổi Bật" : "Kết Quả Tìm Kiếm")</h2>
+                <h2 class="text-center mb-4">Sách Nổi Bật</h2>
+
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 justify-content-center">
                     @foreach (var book in books)
                     {
                         <div class="col">
-                            <div class="card h-100 border-0 shadow-sm position-relative" style="transition: transform 0.2s;">
-                                <img src="@(string.IsNullOrEmpty(book.ImagePath) ? "~/images/books/CSharp.jpg" : book.ImagePath)"
-                                     class="card-img-top" alt="@book.Title" style="height: 250px; object-fit: cover; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem;">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <img src="@(string.IsNullOrEmpty(book.ImagePath) ? Url.Content("~/images/default.jpg") : Url.Content(book.ImagePath))"
+                                     class="card-img-top"
+                                     alt="@book.Title"
+                                     style="height:250px;object-fit:cover;" />
+
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title text-truncate">@book.Title</h5>
-                                    <p class="card-text mb-2"><small>Tác giả: @(string.Join(", ", book.BookAuthors?.Select(ba => ba.Author?.AuthorName) ?? new List<string>()) ?? "Chưa có thông tin")</small></p>
-                                    <p class="card-text mb-2"><small>Nhà Xuất Bản: @(book.Publisher?.PublisherName ?? "Chưa có thông tin")</small></p>
-                                    <p class="card-text mb-2"><strong>Trạng Thái:</strong> @(book.Quantity > 0 ? "<span class='text-success'>Còn sách</span>" : "<span class='text-danger'>Đã hết sách để mượn</span>")</p>
+
+                                    <p class="card-text mb-2">
+                                        <small>
+                                            Tác giả:
+                                            @(
+                                                                                book.Authors != null && book.Authors.Any()
+                                                                                ? string.Join(", ", book.Authors.Select(a => a.AuthorName))
+                                                                                : "Chưa có thông tin"
+                                                                                )
+                                    </small>
+                                </p>
+
+                                    <p class="card-text mb-2">
+                                        <small>Nhà Xuất Bản: @(book.Publisher?.PublisherName ?? "Chưa có thông tin")</small>
+                                    </p>
+
+                                    <p class="card-text mb-2">
+                                        <strong>Trạng Thái:</strong>
+                                        <span class="@(book.Quantity > 0 ? "text-success" : "text-danger")">
+                                            @(book.Quantity > 0 ? "Còn hàng" : "Hết hàng")
+                                        </span>
+                                    </p>
+
                                     <div class="mt-auto d-flex gap-2">
                                         <a asp-controller="Books" asp-action="Details" asp-route-id="@book.BookId"
                                            class="btn btn-outline-primary btn-sm w-100">Xem Chi Tiết</a>
-                                        @if (book.Quantity > 0 && !string.IsNullOrEmpty(Context.Session?.GetString("UserRole")))
+
+                                @if (userRole == "Student" || userRole == "Librarian")
                                         {
-                                            if (Context.Session.GetString("UserRole") == "Student" || Context.Session.GetString("UserRole") == "Librarian")
-                                            {
-                                                <a asp-controller="Borrowed" asp-action="RegisterBorrow" asp-route-bookId="@book.BookId"
-                                                   class="btn btn-outline-success btn-sm w-100">Đăng Ký Mượn</a>
-                                            }
-                                        }
-                                        else if (book.Quantity <= 0)
-                                        {
-                                            <span class="btn btn-outline-secondary btn-sm w-100 disabled">Hết Hàng</span>
+                                            <a asp-controller="Borrowed" asp-action="RegisterBorrow" asp-route-bookId="@book.BookId"
+                                               class="btn btn-outline-success btn-sm w-100">Đăng Ký Mượn</a>
                                         }
                                     </div>
                                 </div>
-                                @if (book.Quantity <= 0)
-                                {
-                                    <div class="position-absolute top-0 end-0 bg-danger text-white p-1 rounded-start" style="font-size: 0.8rem;">Hết</div>
-                                }
                             </div>
                         </div>
                     }
@@ -63,21 +70,66 @@
     else
     {
         <div class="alert alert-info text-center mb-5">
-            Không có sách nào để hiển thị.
+            <p>
+                Không có sách nào để hiển thị. Vui lòng
+                <a asp-controller="Books" asp-action="Index" class="alert-link">xem tất cả sách</a>.
+            </p>
         </div>
     }
-</div>
 
-@section Scripts {
-    <script>
-        // Thêm hiệu ứng hover cho card
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'scale(1.05)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'scale(1)';
-            });
-        });
-    </script>
-}
+    <!-- Các liên kết nhanh -->
+    <div class="row mb-5">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><i class="fas fa-tags"></i> Thể Loại</h5>
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-outline-primary w-100">Xem Thể Loại</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><i class="fas fa-user"></i> Tác Giả</h5>
+                    <a asp-controller="Author" asp-action="Index" class="btn btn-outline-primary w-100">Xem Tác Giả</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><i class="fas fa-book"></i> Tất Cả Sách</h5>
+                    <a asp-controller="Books" asp-action="Index" class="btn btn-outline-primary w-100">Xem Tất Cả</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title"><i class="fas fa-cog"></i> Quản Lý</h5>
+                    @if (!string.IsNullOrEmpty(userRole))
+                    {
+                        <a asp-action="Index" asp-controller="@ViewBag.RedirectController" class="btn btn-outline-primary w-100">Vào Quản Lý</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thông tin liên hệ -->
+    <div class="row mb-5">
+        <div class="col-12 text-center bg-light p-4 rounded shadow-sm">
+            <h3 class="mb-3">Liên Hệ Với Chúng Tôi</h3>
+            <p class="mb-1">
+                <i class="fas fa-envelope"></i> Email:
+                <a href="mailto:support@ctuni.com">support@ctuni.com</a>
+            </p>
+            <p class="mb-1"><i class="fas fa-phone"></i> Điện thoại: 090-123-4567</p>
+            <p class="mb-0"><i class="fas fa-map-marker-alt"></i> Địa chỉ: 123 Đường Sách, TP. Hồ Chí Minh</p>
+        </div>
+    </div>
+
+</div>

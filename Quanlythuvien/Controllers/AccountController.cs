@@ -25,42 +25,39 @@ namespace Quanlythuvien.Controllers
 
         // POST: /Account/Login
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string username, string password, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(username);
-                if (user != null)
-                {
-                    var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
-                    if (result.Succeeded)
-                    {
-                        // Lấy vai trò của người dùng
-                        var roles = await _userManager.GetRolesAsync(user);
-                        var role = roles.FirstOrDefault();
-
-                        // Lưu vai trò và username vào session
-                        HttpContext.Session.SetString("UserRole", role ?? "Student"); 
-                        HttpContext.Session.SetString("Username", username);
-
-                        // Chuyển hướng dựa trên vai trò
-                        switch (role)
-                        {
-                            case "Admin":
-                                return RedirectToAction("Index", "Admin");
-                            case "Librarian":
-                                return RedirectToAction("Index", "Librarian");
-                            case "Student":
-                                return RedirectToAction("Index", "Student");
-                            default:
-                                return RedirectToAction("Index", "Home");
-                        }
-                    }
-                }
-                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+                return View(model);
             }
-            return View();
+
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user != null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var role = roles.FirstOrDefault() ?? "Student"; 
+
+                    // Lưu vai trò vào session
+                    HttpContext.Session.SetString("UserRole", role);
+                    HttpContext.Session.SetString("Username", model.Username);
+
+                    // Chuyển hướng dựa trên vai trò
+                    return role switch
+                    {
+                        "Admin" => RedirectToAction("Index", "Admins"),
+                        "Librarian" => RedirectToAction("Index", "Librarians"),
+                        "Student" => RedirectToAction("Index", "Students"),
+                        _ => RedirectToAction("Index", "Home")
+                    };
+                }
+            }
+
+            ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+            return View(model);
         }
 
         // GET: /Account/Logout

@@ -1,65 +1,71 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Thêm d?ch v? MVC
 builder.Services.AddControllersWithViews();
 
+// C?u hình Identity v?i vai trò
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+})
+.AddEntityFrameworkStores<QuanlythuvienDbContext>()
+.AddDefaultTokenProviders();
+
+// C?u hình Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); 
-    options.Cookie.HttpOnly = true;              
-    options.Cookie.IsEssential = true;             
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
+// C?u hình logging
 builder.Services.AddLogging(logging =>
 {
-    logging.AddConsole();  
-    logging.AddDebug();    
+    logging.AddConsole();
+    logging.AddDebug();
 });
 
+// C?u hình HttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
+// C?u hình DbContext
 builder.Services.AddDbContext<QuanlythuvienDbContext>(options =>
 {
-    try
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrEmpty(connectionString))
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        if (string.IsNullOrEmpty(connectionString))
-        {
-            throw new InvalidOperationException("Chui k?t n?i DefaultConnection không ???c tìm th?y trong appsettings.json.");
-        }
-        options.UseSqlServer(connectionString);
+        throw new InvalidOperationException("Chu?i k?t n?i DefaultConnection không ???c tìm th?y trong appsettings.json.");
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"L?i c?u hình DbContext: {ex.Message}");
-        throw; 
-    }
+    options.UseSqlServer(connectionString);
 });
 
 var app = builder.Build();
 
-
-if (app == null)
-{
-    throw new InvalidOperationException("ng??i dùng không th? ???c xây d?ng. Vui lòng ki?m tra c?u hình d?ch v?.");
-}
-
-
+// Middleware
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error"); 
-    app.UseHsts();                         
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
- 
-app.UseHttpsRedirection();  
-app.UseStaticFiles();       
-app.UseRouting();           
-app.UseSession();          
-app.UseAuthorization();     
 
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.UseAuthentication(); 
+app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

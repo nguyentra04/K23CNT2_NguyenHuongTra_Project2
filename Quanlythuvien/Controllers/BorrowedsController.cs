@@ -1,7 +1,7 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading.Tasks;*/
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +21,10 @@ namespace Quanlythuvien.Controllers
         // GET: Borroweds
         public async Task<IActionResult> Index()
         {
-            var quanlythuvienDbContext = _context.Borroweds.Include(b => b.Book).Include(b => b.Libra).Include(b => b.Student);
+            var quanlythuvienDbContext = _context.Borroweds
+                .Include(b => b.Book)
+                .Include(b => b.Libra)
+                .Include(b => b.Student);
             return View(await quanlythuvienDbContext.ToListAsync());
         }
 
@@ -49,28 +52,26 @@ namespace Quanlythuvien.Controllers
         // GET: Borroweds/Create
         public IActionResult Create()
         {
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId");
-            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "LibraId");
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "StudentId");
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Title");
+            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "FullName");
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FullName");
             return View();
         }
 
-        // POST: Borroweds/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BorrowId,StudentId,BookId,BorrowDate,DueDate,ReturnDate,LibraId,FineAmount,BookStatus,Status")] Borrowed borrowed)
         {
             if (ModelState.IsValid)
             {
+                if (!borrowed.BorrowDate.HasValue) borrowed.BorrowDate = DateOnly.FromDateTime(DateTime.Now);
                 _context.Add(borrowed);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", borrowed.BookId);
-            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "LibraId", borrowed.LibraId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "StudentId", borrowed.StudentId);
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Title", borrowed.BookId);
+            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "FullName", borrowed.LibraId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FullName", borrowed.StudentId);
             return View(borrowed);
         }
 
@@ -87,15 +88,13 @@ namespace Quanlythuvien.Controllers
             {
                 return NotFound();
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", borrowed.BookId);
-            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "LibraId", borrowed.LibraId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "StudentId", borrowed.StudentId);
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Title", borrowed.BookId);
+            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "FullName", borrowed.LibraId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FullName", borrowed.StudentId);
             return View(borrowed);
         }
 
         // POST: Borroweds/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("BorrowId,StudentId,BookId,BorrowDate,DueDate,ReturnDate,LibraId,FineAmount,BookStatus,Status")] Borrowed borrowed)
@@ -125,9 +124,9 @@ namespace Quanlythuvien.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "BookId", borrowed.BookId);
-            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "LibraId", borrowed.LibraId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "StudentId", borrowed.StudentId);
+            ViewData["BookId"] = new SelectList(_context.Books, "BookId", "Title", borrowed.BookId);
+            ViewData["LibraId"] = new SelectList(_context.Librarians, "LibraId", "FullName", borrowed.LibraId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "FullName", borrowed.StudentId);
             return View(borrowed);
         }
 
@@ -170,6 +169,11 @@ namespace Quanlythuvien.Controllers
         private bool BorrowedExists(int id)
         {
             return _context.Borroweds.Any(e => e.BorrowId == id);
+        }
+
+        private bool IsOverdue(DateTime? dueDate)
+        {
+            return dueDate.HasValue && dueDate.Value < DateTime.Now;
         }
     }
 }

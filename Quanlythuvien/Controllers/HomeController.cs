@@ -16,25 +16,20 @@ namespace Quanlythuvien.Controllers
         }
 
         // GET: Home/Index
-        public async Task<IActionResult> Index()
+             public async Task<IActionResult> Index(int? cateId)
         {
-            try
+            var categories = await _context.Categories.ToListAsync();
+            ViewBag.Categories = categories;
+            ViewBag.SelectedCategory = cateId;
+
+            var books = _context.Books.Include(b => b.Categories).AsQueryable();
+
+            if (cateId.HasValue)
             {
-                var books = await _context.Books
-                    .Include(b => b.Authors)
-                    .ThenInclude(a => a) // Remove this line if Author does not have navigation properties to include
-                    .Include(b => b.Publisher)
-                    .OrderByDescending(b => b.BookId)
-                    .Take(6)
-                    .ToListAsync();
-                ViewBag.Books = books;
+                books = books.Where(b => b.Categories.Any(c => c.CateId == cateId.Value));
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"L?i t?i sách: {ex.Message}");
-                ViewBag.ErrorMessage = "Không th? t?i danh sách sách.";
-            }
-            return View();
+
+            return View(await books.ToListAsync());
         }
 
         // GET: Home/Books
@@ -76,6 +71,17 @@ namespace Quanlythuvien.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Contact(string Name, string Email, string Message)
+        {
+            ViewBag.Success = "C?m ?n b?n ?ã liên h?. Chúng tôi s? ph?n h?i s?m nh?t!";
+            return View();
+        }
+
+        public IActionResult Introduce()
+        {
+            return View();
+        }
 
         // GET: Home/Search
         [HttpGet]
@@ -111,7 +117,7 @@ namespace Quanlythuvien.Controllers
                 ViewBag.ErrorMessage = "Không th? tìm ki?m sách. Vui lòng th? l?i sau.";
             }
 
-            return View("Index"); // S? d?ng l?i view Index ?? hi?n th? k?t qu?
+            return View("Index"); 
         }
 
         private string GetRedirectController(string role)
@@ -119,9 +125,9 @@ namespace Quanlythuvien.Controllers
             return role switch
             {
                 "Admin" => "Admins",
-                "Librarian" => "Librarians", // S?a l?i chính t? t? "Librarian" thành "Librarians"
-                "Student" => "Students",     // Thêm "Students" thay vì "Student"
-                _ => "Home"                  // M?c ??nh quay l?i Home n?u vai trò không h?p l?
+                "Librarian" => "Librarians", 
+                "Student" => "Students",     
+                _ => "Home"                  
             };
         }
 
@@ -131,8 +137,6 @@ namespace Quanlythuvien.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-
-    // Model cho Error (n?u c?n)
     public class ErrorViewModel
     {
         public string RequestId { get; set; }

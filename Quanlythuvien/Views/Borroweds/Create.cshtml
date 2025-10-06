@@ -4,52 +4,71 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Borrowed</h4>
+<h1>Thêm Mới Mượn Sách</h1>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <select asp-for="StudentId" class ="form-control" asp-items="ViewBag.StudentId"></select>
+
+            <div class="form-group mb-3">
+                <label asp-for="StudentId" class="control-label">Sinh viên</label>
+                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId">
+                    <option value="">-- Chọn sinh viên --</option>
+                </select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BookId" class="control-label"></label>
-                <select asp-for="BookId" class ="form-control" asp-items="ViewBag.BookId"></select>
+
+            <div class="form-group mb-3">
+                <label asp-for="BookId" class="control-label">Sách</label>
+                <select asp-for="BookId" class="form-control" asp-items="ViewBag.BookId">
+                    <option value=""></option>
+                </select>
+                <span asp-validation-for="BookId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DueDate" class="control-label"></label>
-                <input asp-for="DueDate" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="DueDate" class="control-label">Hạn trả</label>
+                <input asp-for="DueDate" type="date" class="form-control" />
                 <span asp-validation-for="DueDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ReturnDate" class="control-label"></label>
-                <input asp-for="ReturnDate" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="ReturnDate" class="control-label">Ngày trả</label>
+                <input asp-for="ReturnDate" type="date" class="form-control" />
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LibraId" class="control-label"></label>
-                <select asp-for="LibraId" class ="form-control" asp-items="ViewBag.LibraId"></select>
+
+            <div class="form-group mb-3">
+                <label asp-for="LibraId" class="control-label">Thủ thư</label>
+                <select asp-for="LibraId" class="form-control" asp-items="ViewBag.LibraId">
+                    <option value="">-- Chọn thủ thư --</option>
+                </select>
+                <span asp-validation-for="LibraId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BookStatus" class="control-label"></label>
-                <input asp-for="BookStatus" class="form-control" />
+
+            <div class="form-group mb-3">
+                <label asp-for="BookStatus" class="control-label">Tình trạng sách</label>
+                <select asp-for="BookStatus" class="form-control">
+                    <option value="">-- Chọn tình trạng --</option>
+                    <option value="Tốt">Tốt</option>
+                    <option value="Hỏng">Hỏng</option>
+                    <option value="Mất">Mất</option>
+                </select>
                 <span asp-validation-for="BookStatus" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary ms-2">Quay lại</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

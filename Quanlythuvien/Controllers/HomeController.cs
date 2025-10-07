@@ -1,8 +1,10 @@
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
-using Microsoft.AspNetCore.Http;
+using Quanlythuvien.ViewModels;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Quanlythuvien.Controllers
 {
@@ -12,137 +14,88 @@ namespace Quanlythuvien.Controllers
 
         public HomeController(QuanlythuvienDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context ?? throw new ArgumentNullException(nameof(context)); // Kiểm tra null
         }
 
-        // GET: Home/Index
-             public async Task<IActionResult> Index(int? cateId)
+        public IActionResult Index(int categoryId = 0, string searchQuery = "")
         {
-            var categories = await _context.Categories.ToListAsync();
-            ViewBag.Categories = categories;
-            ViewBag.SelectedCategory = cateId;
+            // Lấy danh sách sách
+            var booksQuery = _context.Books
+                .Include(b => b.Categories)
+                .ThenInclude(bc => bc.Categories)
+                .Include(b => b.Publisher)
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .AsQueryable();
 
-            var books = _context.Books.Include(b => b.Categories).AsQueryable();
+            if (categoryId != 0)
+                booksQuery = booksQuery.Where(b => b.Categories.Any(c => c.CateId == categoryId));
 
-            if (cateId.HasValue)
-            {
-                books = books.Where(b => b.Categories.Any(c => c.CateId == cateId.Value));
-            }
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+                booksQuery = booksQuery.Where(b => b.Title.Contains(searchQuery));
 
-            return View(await books.ToListAsync());
-        }
+            var books = booksQuery
+                .Select(b => new HomeBookViewModel
+                {
+                    BookId = b.BookId,
+                    Title = b.Title,
+                    Authors = b.BookAuthors != null ? b.BookAuthors.Select(ba => ba.Author.AuthorName).ToList() : new List<string>(), // Điều hướng qua BookAuthors
+                    PublisherName = b.Publisher != null ? b.Publisher.PublisherName : "",
+                    YearPublished = b.YearPublished,
+                    ImagePath = b.ImagePath ?? "",
+                    CateName = b.Categories.Count > 0 ? string.Join(", ", b.Categories.Select(c => c.Categories.CateName)) : "Chưa phân loại"
+                })
+                .ToList();
 
-        // GET: Home/Books
-        public async Task<IActionResult> Books()
-        {
-            var userRole = HttpContext.Session.GetString("UserRole");
-            if (string.IsNullOrEmpty(userRole))
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            // Lấy top 5 sách được mượn nhiều
+            var popularBooks = _context.Borroweds
+                .GroupBy(bd => bd.BookId)
+                .Select(g => new PopularBookViewModel
+                {
+                    BookId = (int)g.Key,
+                    Title = g.Select(x => x.Book != null ? x.Book.Title : "").FirstOrDefault() ?? "",
+                    TotalBorrows = g.Count()
+                })
+                .OrderByDescending(x => x.TotalBorrows)
+                .Take(5)
+                .ToList();
 
-            try
-            {
-                var books = await _context.Books
-                    .Include(b => b.Authors)
-                    .ThenInclude(a => a) // Remove this line if Author does not have navigation properties to include
-                    .Include(b => b.Publisher)
-                    .OrderByDescending(b => b.BookId)
-                    .Take(6)
-                    .ToListAsync();
-                return View(books);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"L?i t?i s�ch: {ex.Message}");
-                ViewBag.ErrorMessage = "Kh�ng th? t?i danh s�ch s�ch. Vui l�ng th? l?i sau.";
-                return View(new List<Book>());
-            }
-        }
+            ViewBag.PopularBooks = popularBooks;
+            ViewBag.Books = books;
+            ViewBag.SelectedCategory = categoryId;
+            ViewBag.SearchQuery = searchQuery;
 
-        // GET: Home/Privacy
-        public IActionResult Privacy()
-        {
             return View();
         }
 
-        // GET: Home/Contact
-        public IActionResult Contact()
-        {
-            return View();
-        }
+        public IActionResult Giới_thiệu() => View();
+
+        public IActionResult Liên_hệ() => View();
+
         [HttpPost]
-        public IActionResult Contact(string Name, string Email, string Message)
+        public IActionResult Liên_hệ(string Name, string Email, string Message)
         {
-            ViewBag.Success = "C?m ?n b?n ?� li�n h?. Ch�ng t�i s? ph?n h?i s?m nh?t!";
+            if (string.IsNullOrWhiteSpace(Name) ||
+                string.IsNullOrWhiteSpace(Email) ||
+                string.IsNullOrWhiteSpace(Message))
+            {
+                ViewBag.Error = "Vui lòng điền đầy đủ thông tin.";
+                return View();
+            }
+
+            ViewBag.Success = "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất!";
             return View();
         }
 
-        public IActionResult Introduce()
-        {
-            return View();
-        }
-
-        // GET: Home/Search
-        [HttpGet]
-        public async Task<IActionResult> Search(string query)
-        {
-            if (string.IsNullOrEmpty(query))
-            {
-                return RedirectToAction("Index");
-            }
-
-            var userRole = HttpContext.Session.GetString("UserRole");
-            if (string.IsNullOrEmpty(userRole))
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            try
-            {
-                var books = await _context.Books
-                    .Include(b => b.Authors)
-                    .Include(b => b.Publisher)
-                    .Where(b => b.Title.Contains(query) ||
-                               b.Authors.Any(a => a.AuthorName.Contains(query)) ||
-                               b.Publisher.PublisherName.Contains(query)) 
-                    .Take(10)
-                    .ToListAsync();
-                ViewBag.Books = books;
-                ViewBag.SearchQuery = query; 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"L?i t�m ki?m: {ex.Message}");
-                ViewBag.ErrorMessage = "Kh�ng th? t�m ki?m s�ch. Vui l�ng th? l?i sau.";
-            }
-
-            return View("Index"); 
-        }
-
-        private string GetRedirectController(string role)
-        {
-            return role switch
-            {
-                "Admin" => "Admins",
-                "Librarian" => "Librarians", 
-                "Student" => "Students",     
-                _ => "Home"                  
-            };
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Lỗi()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
     public class ErrorViewModel
     {
         public string RequestId { get; set; }
-
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }
-
-

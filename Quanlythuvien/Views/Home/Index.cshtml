@@ -1,14 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Trang Chủ";
+﻿@using Quanlythuvien.ViewModels;
+@{
+    var books = ViewBag.Books as List<HomeBookViewModel> ?? new List<HomeBookViewModel>();
+var topBorrowedBooks = ViewBag.PopularBooks as List<PopularBookViewModel> ?? new List<PopularBookViewModel>();
 
-   
-    var books = ViewBag.Books as List<Quanlythuvien.Models.Book> ?? new List<Quanlythuvien.Models.Book>();
-    var categories = ViewBag.Categories as List<Quanlythuvien.Models.Category> ?? new List<Quanlythuvien.Models.Category>();
-    var selectedCategory = ViewBag.SelectedCategory as int? ?? 0;
-    var searchQuery = ViewBag.SearchQuery as string ?? "";
-
-   
-    var userRole = Context.Session.GetString("UserRole");
+var searchQuery = ViewBag.SearchQuery as string ?? "";
 }
 
 <div class="container mt-3">
@@ -16,26 +11,31 @@
         <img src="~/images/banner.jpg" alt="Thư Viện" class="img-fluid w-100 rounded shadow" />
     </div>
     <div class="row">
+        
         <div class="col-md-3">
-            <h5 class="mb-3">Thể loại</h5>
+            <h5 class="mb-3">Top Sách Được Mượn Nhiều</h5>
             <ul class="list-group">
-                <li class="list-group-item @(selectedCategory == 0 ? "active" : "")">
-                    <a asp-action="Index" asp-route-categoryId="0" class="text-decoration-none text-dark d-block">
-                        Tất cả
-                    </a>
-                </li>
-                @foreach (var cate in categories)
+                @if (!topBorrowedBooks.Any())
                 {
-                    <li class="list-group-item @(selectedCategory == cate.CateId ? "active" : "")">
-                        <a asp-action="Index" asp-route-categoryId="@cate.CateId" class="text-decoration-none text-dark d-block">
-                            @cate.CateName
-                        </a>
-                    </li>
+                    <li class="list-group-item text-muted">Chưa có dữ liệu</li>
+                }
+                else
+                {
+                    @foreach (var b in topBorrowedBooks)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a asp-action="Details" asp-route-id="@b.BookId" class="text-decoration-none text-dark">
+                                @b.Title
+                            </a>
+                            <span class="badge bg-primary rounded-pill">@b.TotalBorrows</span> 
+                        </li>
+                    }
                 }
             </ul>
         </div>
+
+        
         <div class="col-md-9">
-            
             <form asp-action="Index" method="get" class="mb-4">
                 <div class="input-group">
                     <input type="text" name="searchQuery" value="@searchQuery" placeholder="Tìm kiếm sách..." class="form-control" />
@@ -43,7 +43,6 @@
                 </div>
             </form>
 
-            
             <div class="row">
                 @if (!books.Any())
                 {
@@ -57,21 +56,13 @@
                     {
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 shadow-sm">
-                                <img src="~/images/books/@book.ImagePath" class="card-img-top" alt="@book.Title" style="height: 200px; object-fit: cover;" />
+                                <img src="~/images/books/@book.ImagePath" class="card-img-top" alt="@book.Title" style="height:200px; object-fit:cover;" />
                                 <div class="card-body">
                                     <h5 class="card-title">@book.Title</h5>
-                                    <p class="card-text">
-                                        <small class="text-muted">Tác giả: @book.Authors</small>
-                                    </p>
+                                    <p class="card-text"><small class="text-muted">Tác giả: @(string.Join(", ", book.Authors))</small></p> <!-- Xử lý danh sách Authors -->
                                 </div>
                                 <div class="card-footer text-center">
                                     <a asp-action="Details" asp-route-id="@book.BookId" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
-
-                                    @if (userRole == "Admin")
-                                    {
-                                        <a asp-action="Edit" asp-route-id="@book.BookId" class="btn btn-sm btn-warning">Sửa</a>
-                                        <a asp-action="Delete" asp-route-id="@book.BookId" class="btn btn-sm btn-danger">Xóa</a>
-                                    }
                                 </div>
                             </div>
                         </div>
@@ -87,11 +78,6 @@
         .banner img {
             max-height: 250px;
             object-fit: cover;
-        }
-
-        .list-group-item.active a {
-            color: white !important;
-            font-weight: bold;
         }
     </style>
 }

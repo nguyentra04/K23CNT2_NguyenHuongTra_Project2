@@ -33,3 +33,59 @@ body {
 .position-absolute.top-0.end-0 {
     z-index: 1;
 }
+/* === CSS cho trang Chính Sách B?o M?t === */
+
+/* Vùng ch?a chính c?a trang */
+.privacy-policy {
+    max-width: 800px; /* Gi?i h?n chi?u r?ng ?? d? ??c */
+    margin: 0 auto; /* C?n gi?a trang */
+    padding: 20px;
+    background-color: #f9f9f9; /* Màu n?n nh? nhàng */
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Bo góc m?m m?i */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font ch? d? ??c */
+    color: #333; /* Màu ch? chính */
+    line-height: 1.6; /* Giãn dòng ?? d? ??c h?n */
+}
+
+    /* Tiêu ?? chính c?a trang */
+    .privacy-policy h2 {
+        color: #2c3e50; /* Màu tiêu ?? ??m */
+        font-weight: 600;
+    }
+
+    /* Dòng "C?p nh?t l?n cu?i" */
+    .privacy-policy .last-updated {
+        color: #777;
+        font-size: 0.9em;
+        margin-bottom: 30px;
+    }
+
+/* ??nh d?ng cho m?i m?c trong chính sách */
+.policy-section {
+    margin-bottom: 25px; /* Kho?ng cách gi?a các m?c */
+}
+
+    /* Tiêu ?? c?a t?ng m?c */
+    .policy-section .section-title {
+        color: #3498db; /* Màu xanh cho tiêu ?? m?c */
+        border-bottom: 2px solid #e0e0e0; /* ???ng g?ch chân nh? */
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
+
+/* ??nh d?ng cho danh sách (ul) */
+.privacy-policy ul {
+    list-style-type: disc; /* Ki?u d?u ??u dòng */
+    padding-left: 20px; /* Th?t l? cho danh sách */
+}
+
+    .privacy-policy ul li {
+        margin-bottom: 10px; /* Kho?ng cách gi?a các m?c trong danh sách */
+    }
+
+/* ??nh d?ng cho các t? in ??m */
+.privacy-policy strong {
+    color: #333;
+}

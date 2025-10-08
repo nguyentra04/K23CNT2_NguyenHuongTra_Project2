@@ -19,7 +19,7 @@ namespace Quanlythuvien.Controllers
 
         public IActionResult Index(int categoryId = 0, string searchQuery = "")
         {
-            // Lấy danh sách sách
+            
             var booksQuery = _context.Books
                 .Include(b => b.Categories)
                 .ThenInclude(bc => bc.Categories)
@@ -67,13 +67,57 @@ namespace Quanlythuvien.Controllers
 
             return View();
         }
+        public IActionResult Details(int id)
+        {
+            if (_context.Books == null)
+            {
+                return View("Lỗi", new ErrorViewModel { RequestId = HttpContext.TraceIdentifier, Message = "Dữ liệu không khả dụng." });
+            }
 
-        public IActionResult Giới_thiệu() => View();
+            var book = _context.Books
+                .Include(b => b.Categories)
+                .ThenInclude(bc => bc.Categories)
+                .Include(b => b.Publisher)
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)
+                .Where(b => b.BookId == id)
+                .Select(b => new HomeBookViewModel
+                {
+                    BookId = b.BookId,
+                    Title = b.Title,
+                    Authors = b.BookAuthors != null && b.BookAuthors.Any()
+                    ? b.BookAuthors.Select(ba => ba.Author != null ? ba.Author.AuthorName : "Không rõ").ToList()
+                    : new List<string>(),
+                                PublisherName = b.Publisher != null ? b.Publisher.PublisherName : "",
+                                YearPublished = b.YearPublished,
+                                ImagePath = b.ImagePath ?? "",
+                                CateName = b.Categories.Any()
+                    ? string.Join(", ", b.Categories.Select(c => c.Categories != null ? c.Categories.CateName : "Không rõ"))
+                    : "Chưa phân loại",
+                    Description = b.Description ?? "Không có mô tả",
+                    Location = b.Location ?? "Không rõ",
+                    DownloadLink = b.DownloadLink ?? "",
+                    Quantity = b.Quantity,
+                    Status = b.Status
+                })
+                .FirstOrDefault();
 
-        public IActionResult Liên_hệ() => View();
+            if (book == null)
+            {
+                return View("Lỗi", new ErrorViewModel { RequestId = HttpContext.TraceIdentifier, Message = "Sách không tồn tại." });
+            }
+
+            ViewBag.Book = book;
+            return View();
+        }
+
+        public IActionResult Privacy() => View();
+        public IActionResult Introduce() => View();
+
+        public IActionResult Contact() => View();
 
         [HttpPost]
-        public IActionResult Liên_hệ(string Name, string Email, string Message)
+        public IActionResult Contact(string Name, string Email, string Message)
         {
             if (string.IsNullOrWhiteSpace(Name) ||
                 string.IsNullOrWhiteSpace(Email) ||
@@ -87,7 +131,7 @@ namespace Quanlythuvien.Controllers
             return View();
         }
 
-        public IActionResult Lỗi()
+        public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
@@ -96,6 +140,7 @@ namespace Quanlythuvien.Controllers
     public class ErrorViewModel
     {
         public string RequestId { get; set; }
+        public string Message { get; set; }
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }

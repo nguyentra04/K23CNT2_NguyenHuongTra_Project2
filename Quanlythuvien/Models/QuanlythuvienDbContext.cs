@@ -108,13 +108,16 @@ namespace Quanlythuvien.Models
                 entity.Property(e => e.BookId).HasColumnName("bookId");
                 entity.Property(e => e.CateId).HasColumnName("cateId");
 
+                // Cấu hình rõ ràng khóa ngoại để tránh shadow property
                 entity.HasOne(d => d.Books).WithMany(p => p.Categories)
                     .HasForeignKey(d => d.BookId)
+                    .HasPrincipalKey(b => b.BookId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_BookCategories_Books");
 
                 entity.HasOne(d => d.Categories).WithMany(p => p.BookCategories)
                     .HasForeignKey(d => d.CateId)
+                    .HasPrincipalKey(c => c.CateId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_BookCategories_Categories");
             });

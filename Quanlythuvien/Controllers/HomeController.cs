@@ -47,7 +47,7 @@ namespace Quanlythuvien.Controllers
                 })
                 .ToList();
 
-            // Lấy top 5 sách được mượn nhiều
+          
             var popularBooks = _context.Borroweds
                 .GroupBy(bd => bd.BookId)
                 .Select(g => new PopularBookViewModel

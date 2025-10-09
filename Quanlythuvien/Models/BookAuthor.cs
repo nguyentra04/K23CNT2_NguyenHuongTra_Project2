@@ -7,4 +7,4 @@
         public virtual Book Book { get; set; } = null!;
         public virtual Author Author { get; set; } = null!;
     }
-    }
+}

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
 
 namespace Quanlythuvien.Controllers
 {
+    [Authorize]
     public class StudentsController : Controller
     {
         private readonly QuanlythuvienDbContext _context;
@@ -47,11 +44,11 @@ namespace Quanlythuvien.Controllers
             var book = await _context.Books.FindAsync(bookId);
             if (book != null && book.Quantity > 0)
             {
-               
+
                 book.Quantity -= 1;
                 var borrow = new Borrowed
                 {
-                    StudentId = 1, 
+                    StudentId = 1,
                     BookId = bookId,
                     BorrowDate = DateOnly.FromDateTime(DateTime.Now),
                     DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(7))

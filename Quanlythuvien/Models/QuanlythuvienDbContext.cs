@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Quanlythuvien.Models
 {
-    public partial class QuanlythuvienDbContext : DbContext
+    public partial class QuanlythuvienDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public QuanlythuvienDbContext()
         {
@@ -28,16 +30,10 @@ namespace Quanlythuvien.Models
         public virtual DbSet<BookAuthor> BookAuthors { get; set; }
         public virtual DbSet<BookCategory> BookCategories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Name=ConnectionStrings:DefaultConnection");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); // Gọi base để cấu hình Identity
+
             modelBuilder.Entity<Admin>(entity =>
             {
                 entity.HasKey(e => e.AdminId).HasName("PK__Admins__AD0500A654D7C909");
@@ -108,8 +104,8 @@ namespace Quanlythuvien.Models
                 entity.Property(e => e.BookId).HasColumnName("bookId");
                 entity.Property(e => e.CateId).HasColumnName("cateId");
 
-                // Cấu hình rõ ràng khóa ngoại để tránh shadow property
-                entity.HasOne(d => d.Books).WithMany(p => p.Categories)
+                entity.HasOne(d => d.Books).WithMany(p => p.BookCategories
+                )
                     .HasForeignKey(d => d.BookId)
                     .HasPrincipalKey(b => b.BookId)
                     .OnDelete(DeleteBehavior.Cascade)
@@ -143,6 +139,12 @@ namespace Quanlythuvien.Models
                 entity.Property(e => e.ReturnDate).HasColumnName("returnDate");
                 entity.Property(e => e.Status).HasDefaultValue(true).HasColumnName("status");
                 entity.Property(e => e.StudentId).HasColumnName("studentId");
+
+                entity.HasOne(d => d.Book).WithMany(p => p.Borroweds)
+                    .HasForeignKey(d => d.BookId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Borrowed_Books");
+
                 entity.HasOne(d => d.Libra).WithMany(p => p.Borroweds)
                     .HasForeignKey(d => d.LibraId)
                     .OnDelete(DeleteBehavior.SetNull)

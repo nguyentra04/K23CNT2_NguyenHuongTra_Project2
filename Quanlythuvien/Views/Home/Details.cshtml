@@ -1,7 +1,55 @@
-﻿
+﻿@model Quanlythuvien.ViewModels.BookDetailViewModel
 @{
-    ViewData["Title"] = "Detaisl";
+    ViewData["Title"] = "Chi tiết sách";
 }
 
-<h1>Detail</h1>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="@Model.ImagePath"
+                 alt="@Model.Title"
+                 class="img-fluid rounded shadow-sm mb-3"
+                 style="max-height: 400px; object-fit: cover;">
+        </div>
 
+        <div class="col-md-8">
+            <h2 class="fw-bold mb-3">@Model.Title</h2>
+
+            <p>
+                <strong>Tác giả:</strong>
+                @if (Model.Authors.Any())
+                {
+                    @string.Join(", ", Model.Authors)
+                }
+                else
+                {
+                    <span class="text-muted">Chưa cập nhật</span>
+                }
+            </p>
+
+            <p><strong>Nhà xuất bản:</strong> @Model.PublisherName</p>
+            <p><strong>Năm xuất bản:</strong> @(Model.YearPublished ?? 0)</p>
+
+            <p>
+                <strong>Thể loại:</strong>
+                @if (Model.Categories.Any())
+                {
+                    @string.Join(", ", Model.Categories)
+                }
+                else
+                {
+                    <span class="text-muted">Chưa phân loại</span>
+                }
+            </p>
+
+            <hr />
+
+            <h5 class="fw-semibold">Giới thiệu sách</h5>
+            <p class="text-muted">@Model.Description</p>
+
+            <a asp-action="Index" class="btn btn-outline-primary mt-3">
+                ← Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>

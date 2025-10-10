@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Quanlythuvien.Models;
+﻿namespace Quanlythuvien.Models;
 
 public partial class Fine
 {

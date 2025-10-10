@@ -1,16 +1,28 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Th�m d?ch v? MVC
+// Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
-// C?u h�nh Identity v?i vai tr�
+var connectionString = builder.Configuration.GetConnectionString("DbConnect");
+builder.Services.AddDbContext<QuanlythuvienDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Cấu hình Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
+    options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
@@ -20,39 +32,51 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<QuanlythuvienDbContext>()
 .AddDefaultTokenProviders();
 
-// C?u h�nh Session
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
-// C?u h�nh logging
-builder.Services.AddLogging(logging =>
-{
-    logging.AddConsole();
-    logging.AddDebug();
-});
-
-// C?u h�nh HttpContextAccessor
-builder.Services.AddHttpContextAccessor();
-
-// C?u h�nh DbContext
-builder.Services.AddDbContext<QuanlythuvienDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    if (string.IsNullOrEmpty(connectionString))
+// Cấu hình xác thực bằng cookie
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        throw new InvalidOperationException("Chu?i k?t n?i DefaultConnection kh�ng ???c t�m th?y trong appsettings.json.");
-    }
-    options.UseSqlServer(connectionString);
-});
+        options.LogoutPath = "/Account/Logout";
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+    });
 
 var app = builder.Build();
 
-// Middleware
+// Khởi tạo dữ liệu
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<QuanlythuvienDbContext>();
+    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // Áp dụng migration
+
+    
+
+    // Tạo vai trò nếu chưa có
+    var roles = new[] { "Admin", "Librarian", "Student" };
+    foreach (var role in roles)
+    {
+        aw roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    // Tạo tài khoản admin mặc định nếu chưa có
+    var adminUser = await userManager.FindByNameAsync("admin");
+    if (adminUser == null)
+    {
+        var user = new IdentityUser { UserName = "admin", Email = "admin@gmail.com" };
+        var result = await userManager.CreateAsync(user, "123456");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+            Console.WriteLine(">> Tạo tài khoản admin mặc định: admin / 123456");
+        }
+    }
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -62,10 +86,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
-app.UseAuthentication(); 
-app.UseAuthorization();
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

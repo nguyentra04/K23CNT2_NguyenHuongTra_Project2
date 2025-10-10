@@ -1,5 +1,4 @@
-﻿using System;
-namespace Quanlythuvien.Models
+﻿namespace Quanlythuvien.Models
 {
     public class PopularBookViewModel
     {

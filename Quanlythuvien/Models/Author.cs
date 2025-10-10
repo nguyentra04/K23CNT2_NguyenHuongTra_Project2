@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Quanlythuvien.Models
+﻿namespace Quanlythuvien.Models
 {
     public partial class Author
     {

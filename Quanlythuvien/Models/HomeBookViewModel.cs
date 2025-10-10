@@ -1,4 +1,5 @@
-﻿namespace Quanlythuvien.ViewModels
+﻿
+namespace Quanlythuvien.Models
 {
     public class HomeBookViewModel
     {
@@ -15,7 +16,7 @@
         public int Quantity { get; set; }
         public bool Status { get; set; }
 
-        
+
 
         public HomeBookViewModel()
         {

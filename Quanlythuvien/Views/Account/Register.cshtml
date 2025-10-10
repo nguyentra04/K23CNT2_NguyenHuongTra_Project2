@@ -22,29 +22,43 @@
     </div>
 }
 
-<form asp-action="Register" method="post" class="container w-50">
-    <div class="mb-3">
-        <label asp-for="Username" class="form-label">Tên đăng nhập</label>
-        <input asp-for="Username" class="form-control" placeholder="Ví dụ: sv1,..." />
-        <span asp-validation-for="Username" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label">Mật khẩu</label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Fullname" class="form-label">Họ và tên</label>
+<form asp-action="Register" method="post">
+    <div class="form-group">
+        <label asp-for="Fullname"></label>
         <input asp-for="Fullname" class="form-control" />
         <span asp-validation-for="Fullname" class="text-danger"></span>
     </div>
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label">Email</label>
+
+    <div class="form-group">
+        <label asp-for="Username"></label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-success w-100">Đăng Ký</button>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Chọn vai trò</label>
+        <select asp-for="RoleId" class="form-control"
+                asp-items="@(new SelectList(ViewBag.Roles, "RoleId", "RoleName"))">
+            <option value="">-- Chọn vai trò --</option>
+        </select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Đăng ký</button>
 </form>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

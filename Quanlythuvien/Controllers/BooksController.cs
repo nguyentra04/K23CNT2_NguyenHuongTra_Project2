@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
 
 namespace Quanlythuvien.Controllers
+
 {
+    [Authorize(Roles = "Admin,Librarian")]
     public class BooksController : Controller
     {
         private readonly QuanlythuvienDbContext _context;

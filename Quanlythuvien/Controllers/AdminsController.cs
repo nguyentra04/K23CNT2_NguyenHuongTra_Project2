@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace Quanlythuvien.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminsController : Controller
     {
         private readonly QuanlythuvienDbContext _context;
@@ -82,8 +78,8 @@ namespace Quanlythuvien.Controllers
                 .ToListAsync();
             return View(borrows);
         }
-    
-    
+
+
 
         // GET: Admins/Details/5
         public async Task<IActionResult> Details(int? id)

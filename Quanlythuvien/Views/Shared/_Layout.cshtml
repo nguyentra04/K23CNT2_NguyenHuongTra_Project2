@@ -10,136 +10,75 @@
     <link href="~/css/site.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
 </head>
-<style>
-    .navbar {
-        font-family: "Segoe UI", Roboto, sans-serif;
-        font-size: 1.1rem;
-    }
-
-        .navbar .nav-link {
-            color: #333 !important;
-            transition: all 0.2s ease-in-out;
-            padding: 0.5rem 1rem;
-        }
-
-            .navbar .nav-link:hover {
-                color: #0d6efd !important;
-                transform: scale(1.05);
-            }
-
-        .navbar .dropdown-menu {
-            border-radius: 0.5rem;
-            border: 1px solid #e5e5e5;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar .dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: #0d6efd;
-        }
-
-    .navbar-brand span {
-        letter-spacing: 0.5px;
-    }
-
-    @@media (max-width: 992px) {
-        .navbar .nav-link {
-            text-align: center;
-            padding: 0.75rem;
-        }
-    }
-</style>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-2 border-bottom">
             <div class="container-fluid">
-                
+
+
                 <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/books/logo.png" alt="Logo Thư Viện" style="height:100px; width:auto; border-radius:10px; margin-right:10px;">
-                    <span class="fw-bold fs-4 text-primary">Thư Viện</span>
+                    <img src="~/images/books/logo.png" alt="Logo Thư Viện"
+                         style="height:100px; width:auto; border-radius:10px; margin-right:10px;">
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5 fw-semibold">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Trang Chủ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Resources">Tài Nguyên</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Introduce">Giới Thiệu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Liên Hệ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Bảo Mật</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ms-auto fs-5">
-                        @{
-                            var role = HttpContextAccessor.HttpContext?.Session.GetString("UserRole");
-                            var username = HttpContextAccessor.HttpContext?.Session.GetString("Username");
-                            string ctrl = role switch
-                            {
-                                "Admin" => "Admins",
-                                "Librarian" => "Librarians",
-                                _ => "Students"
-                            };
-                        }
 
-                        @if (!string.IsNullOrEmpty(role))
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5 fw-semibold">
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Resources">Tài Nguyên</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Introduce">Giới Thiệu</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Liên Hệ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Privacy">Bảo Mật</a></li>
+                    </ul>
+
+
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-primary" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Xin chào, @username
+                                <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+                                    Đăng xuất @User.Identity.Name
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                                    <li><a class="dropdown-item" asp-controller="@ctrl" asp-action="Index">Quản Lý</a></li>
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout">Đăng Xuất</a></li>
+                                <ul class="dropdown-menu" aria-labelledby="userMenu">
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Đăng Xuất</a></li>
                                 </ul>
                             </li>
 
-                            @if (role == "Admin")
+                            @* Menu Admin chỉ hiển thị nếu user có Role Admin *@
+                            @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle text-danger fw-bold" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown">
                                         Quản Lý Admin
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminMenu">
+                                    <ul class="dropdown-menu" aria-labelledby="adminMenu">
                                         <li><a class="dropdown-item" asp-controller="Admins" asp-action="Index">Quản Lý Admin</a></li>
                                         <li><a class="dropdown-item" asp-controller="Librarians" asp-action="Index">Quản Lý Thủ Thư</a></li>
                                         <li><a class="dropdown-item" asp-controller="Students" asp-action="Index">Quản Lý Sinh Viên</a></li>
                                         <li><a class="dropdown-item" asp-controller="Books" asp-action="Index">Quản Lý Sách</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Categories" asp-action="Create">Thêm Thể Loại</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Authors" asp-action="Create">Thêm Tác Giả</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Thêm Thể Loại</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Authors" asp-action="Index">Thêm Tác Giả</a></li>
                                     </ul>
                                 </li>
                             }
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-primary" asp-controller="Account" asp-action="Login">Đăng Nhập</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-primary" asp-controller="Account" asp-action="Register">Đăng Ký</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Auth" asp-action="Login">Đăng Nhập</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Auth" asp-action="Register">Đăng Ký</a></li>
                         }
                     </ul>
                 </div>
             </div>
         </nav>
-
-       
-
     </header>
 
+    <!-- Nội dung chính -->
     <main role="main" class="container mt-3">
         @if (TempData["Message"] != null)
         {
@@ -164,8 +103,13 @@
         @RenderBody()
     </main>
 
-    <footer class="bg-light text-center py-3 mt-4">
-        <p>&copy; @DateTime.Now.Year - Quản Lý Thư Viện | <a href="@Url.Action("Privacy", "Home")">Chính Sách Bảo Mật</a> | <a href="@Url.Action("Contact", "Home")">Liên Hệ</a></p>
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3 mt-4 border-top">
+        <p>
+            &copy; @DateTime.Now.Year - Quản Lý Thư Viện |
+            <a href="@Url.Action("Privacy", "Home")">Chính Sách Bảo Mật</a> |
+            <a href="@Url.Action("Contact", "Home")">Liên Hệ</a>
+        </p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

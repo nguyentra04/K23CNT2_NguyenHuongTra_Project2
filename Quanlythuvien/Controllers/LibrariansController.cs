@@ -2,66 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace Quanlythuvien.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LibrariansController : Controller
     {
         private readonly QuanlythuvienDbContext _context;
 
         public LibrariansController(QuanlythuvienDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
 
         // GET: Librarians
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("UserRole") != "Librarian")
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            // Thống kê sách và mượn
-            ViewBag.TotalBooks = await _context.Books.CountAsync();
-            ViewBag.PendingBorrows = await _context.Borroweds.CountAsync(b => b.Status == false);
-
-            return View();
-        }
-
-        // Duyệt đơn mượn
-        public async Task<IActionResult> ApproveBorrow(int borrowId)
-        {
-            if (HttpContext.Session.GetString("UserRole") != "Librarian")
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var borrow = await _context.Borroweds.FindAsync(borrowId);
-            if (borrow != null)
-            {
-                borrow.Status = true;
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // Quản lý tình trạng sách
-        public async Task<IActionResult> ManageBooks()
-        {
-            if (HttpContext.Session.GetString("UserRole") != "Librarian")
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var books = await _context.Books.ToListAsync();
-            return View(books);
+            return View(await _context.Librarians.ToListAsync());
         }
 
         // GET: Librarians/Details/5
@@ -79,46 +41,24 @@ namespace Quanlythuvien.Controllers
                 return NotFound();
             }
 
-            // Kiểm tra quyền Admin
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             return View(librarian);
         }
 
         // GET: Librarians/Create
         public IActionResult Create()
         {
-            // Kiểm tra quyền Admin
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             return View();
         }
 
         // POST: Librarians/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LibraId,Username,PasswordHash,Fullname,Email,HireDate,Status")] Librarian librarian)
         {
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (ModelState.IsValid)
             {
-                // Đảm bảo PasswordHash được mã hóa (nếu cần, sử dụng Identity)
-                if (string.IsNullOrEmpty(librarian.PasswordHash))
-                {
-                    ModelState.AddModelError("PasswordHash", "Mật khẩu không được để trống.");
-                    return View(librarian);
-                }
-
                 _context.Add(librarian);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -139,17 +79,12 @@ namespace Quanlythuvien.Controllers
             {
                 return NotFound();
             }
-
-            // Kiểm tra quyền Admin
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             return View(librarian);
         }
 
         // POST: Librarians/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("LibraId,Username,PasswordHash,Fullname,Email,HireDate,Status")] Librarian librarian)
@@ -157,11 +92,6 @@ namespace Quanlythuvien.Controllers
             if (id != librarian.LibraId)
             {
                 return NotFound();
-            }
-
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
             }
 
             if (ModelState.IsValid)
@@ -202,12 +132,6 @@ namespace Quanlythuvien.Controllers
                 return NotFound();
             }
 
-            // Kiểm tra quyền Admin
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             return View(librarian);
         }
 
@@ -216,11 +140,6 @@ namespace Quanlythuvien.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var librarian = await _context.Librarians.FindAsync(id);
             if (librarian != null)
             {

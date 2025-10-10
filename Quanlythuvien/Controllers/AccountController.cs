@@ -1,126 +1,110 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Quanlythuvien.Models;
+
+using System.Security.Claims;
 
 namespace Quanlythuvien.Controllers
 {
-    public class AccountController : Controller
+    public class AuthController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly QuanlythuvienDbContext _context;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, QuanlythuvienDbContext context)
+        public AuthController(QuanlythuvienDbContext context)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
             _context = context;
         }
 
-        // GET: /Account/Login
-        public IActionResult Login()
+        [HttpGet]
+        public IActionResult Login() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string username, string password)
         {
+            // 1. Admin
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Username == username && a.PasswordHash == password);
+            if (admin != null)
+            {
+                await SignInUser(admin.Username, "Admin");
+                return RedirectToAction("Index", "Home"
+                    );
+            }
+
+            // 2. Librarian
+            var librarian = await _context.Librarians.FirstOrDefaultAsync(l => l.Username == username && l.PasswordHash == password);
+            if (librarian != null)
+            {
+                await SignInUser(librarian.Username, "Librarian");
+                return RedirectToAction("Index", "Home");
+            }
+
+            // 3. Student
+            var student = await _context.Students
+    .FirstOrDefaultAsync(s => s.Username == username && s.PasswordHash == password);
+            if (student != null)
+            {
+                await SignInUser(student.Username, "Student");
+                return RedirectToAction("Index", "Home");
+            }
+
+
+            ViewBag.Error = "Sai tài khoản hoặc mật khẩu!";
             return View();
         }
 
-        // POST: /Account/Login
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        private async Task SignInUser(string username, string role)
         {
-            if (!ModelState.IsValid)
+            var claims = new List<Claim>
             {
-                return View(model);
-            }
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, role)
+            };
 
-            var user = await _userManager.FindByNameAsync(model.Username);
-            if (user != null)
-            {
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    var roles = await _userManager.GetRolesAsync(user);
-                    var role = roles.FirstOrDefault() ?? "Student"; 
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
 
-                    // Lưu vai trò vào session
-                    HttpContext.Session.SetString("UserRole", role);
-                    HttpContext.Session.SetString("Username", model.Username);
-
-                    // Chuyển hướng dựa trên vai trò
-                    return role switch
-                    {
-                        "Admin" => RedirectToAction("Index", "Admins"),
-                        "Librarian" => RedirectToAction("Index", "Librarians"),
-                        "Student" => RedirectToAction("Index", "Students"),
-                        _ => RedirectToAction("Index", "Home")
-                    };
-                }
-            }
-
-            ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
-            return View(model);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
 
-        // GET: /Account/Logout
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Home");
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
 
-        // GET: /Account/Register (Tùy chọn, chỉ Admin có thể tạo người dùng mới)
+        public IActionResult AccessDenied() => Content(" Bạn không có quyền truy cập!");
+
+
+        [HttpGet]
         public IActionResult Register()
         {
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
             return View();
         }
 
-        // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(string username, string password, string role)
+        public async Task<IActionResult> Register(Student model)
         {
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = username, Email = $"{username}@example.com" };
-                var result = await _userManager.CreateAsync(user, password);
-                if (result.Succeeded)
+                var exist = await _context.Students.FirstOrDefaultAsync(s => s.Username == model.Username);
+                if (exist != null)
                 {
-                    await _userManager.AddToRoleAsync(user, role);
-                    return RedirectToAction("Index", "Admin");
+                    ViewBag.Error = "Tên đăng nhập đã tồn tại!";
+                    return View(model);
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View();
-        }
 
-            [HttpPost]
-            public IActionResult Logout(string returnUrl = null)
-            {
-                // Xóa session
-                HttpContext.Session.Clear();
+                _context.Students.Add(model);
+                await _context.SaveChangesAsync();
 
-                // Đặt thông báo thành công
-                TempData["Message"] = "Bạn đã đăng xuất thành công!";
+                await SignInUser(model.Username, "Student");
 
-                // Chuyển hướng về trang chủ hoặc URL được chỉ định
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
                 return RedirectToAction("Index", "Home");
             }
+            return View(model);
         }
     }
-
+}
